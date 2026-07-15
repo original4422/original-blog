@@ -10,6 +10,7 @@
 - [x] Vercel Root Directory 为 `apps/vercel`，主站 `/version.json` 指向目标提交 `ca179fdb3fea757d0c4f129fca9ff263f183b51e`。
 - [x] GitHub Pages 已在 `https://original4422.github.io/original-blog/` 启用；[Pages workflow run 29441330328](https://github.com/original4422/original-blog/actions/runs/29441330328) 的 build 与 deploy 均成功，`/version.json` 指向同一目标提交。
 - [x] [新鲜度 workflow run 29441534327](https://github.com/original4422/original-blog/actions/runs/29441534327) 在首次轮询即确认两端均为当前提交。
+- [x] 仓库改名后的真实 push `310068cf82b3d5c26b231ed42007baf7c142f2ee` 自动触发 [CI run 29442700148](https://github.com/original4422/original-blog/actions/runs/29442700148)、[Pages run 29442699575](https://github.com/original4422/original-blog/actions/runs/29442699575) 和 [新鲜度 run 29442699689](https://github.com/original4422/original-blog/actions/runs/29442699689)，三者均成功且两个 `/version.json` 收敛到该提交。
 - [x] Pages 首页、Blog、Tags、Projects、About、深层文章/标签/项目、Feed、Sitemap、搜索索引和版本端点均通过；未知路径返回 404，内部资源与链接适配 `/original-blog` 前缀。
 - [x] 390×844 与 320×568 下移动菜单、焦点、滚动锁定、Escape、About 路由和无横向溢出通过；1280×800 下桌面导航恢复，浏览器日志为空。
 - [x] 不制造真实故障的人工切换演练通过，详见 [`migration/recovery-drill-2026-07-16.md`](migration/recovery-drill-2026-07-16.md)。
