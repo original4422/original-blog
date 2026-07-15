@@ -1,9 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.3.6/schema.json",
   "vcs": {
-    "enabled": true,
-    "clientKind": "git",
-    "useIgnoreFile": true
+    "enabled": false
   },
   "files": {
     "ignoreUnknown": false,
@@ -15,6 +13,9 @@
       "**/*.json",
       "**/*.md",
       "**/*.mdx",
+      "!!**/.next",
+      "!!**/node_modules",
+      "!!**/out",
       "!!**/next-env.d.ts"
     ]
   },
