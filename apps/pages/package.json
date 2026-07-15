@@ -7,7 +7,7 @@
     "dev": "pnpm sync:content-media && next dev --webpack",
     "generate": "tsx scripts/generate-static.mjs",
     "build": "pnpm sync:content-media && pnpm generate && next build",
-    "preview": "serve out -l 4173",
+    "preview": "node ../../scripts/preview-pages.mjs",
     "check": "biome check .",
     "typecheck": "tsc --noEmit",
     "format": "biome check --write .",
@@ -40,7 +40,6 @@
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.6",
     "@types/react-dom": "^19.2.3",
-    "serve": "^14.2.4",
     "tsx": "^4.23.1",
     "typescript": "^5.9.3"
   }

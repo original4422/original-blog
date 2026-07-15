@@ -13,10 +13,12 @@
     "build": "pnpm -r --if-present build",
     "build:vercel": "pnpm --filter @original/blog-vercel build",
     "build:pages": "pnpm --filter @original/blog-pages build",
+    "preview:pages": "pnpm --filter @original/blog-pages preview",
     "audit:content": "tsx scripts/audit-content.ts",
     "check": "pnpm -r --if-present check",
     "typecheck": "pnpm -r --if-present typecheck",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install chromium"
   },
   "pnpm": {
     "overrides": {
@@ -25,6 +27,7 @@
     }
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "tsx": "^4.23.1"
   }
 }
