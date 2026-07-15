@@ -68,7 +68,7 @@ rg -ni 'Yun Shen|yunshen|uestc|yunshen\.eu\.cc|de5\.net|qq\.com|bilibili|linux\.
 ### GitHub Pages
 
 - `output:'export'`、`images.unoptimized:true`、`trailingSlash:true`。
-- `basePath/assetPrefix:'/original-blog-pages'`，所有动态 slug 使用 `generateStaticParams()`。
+- `basePath/assetPrefix:'/original-blog'`，所有动态 slug 使用 `generateStaticParams()`。
 - 静态搜索 JSON 与所有图片/链接均感知 basePath。
 - Actions 权限最小化：`contents:read`、`pages:write`、`id-token:write`；上传 `out/`，包含 `.nojekyll`。
 - 深层详情 URL 直接刷新，资源不得错误请求站点根 `/static/...`。

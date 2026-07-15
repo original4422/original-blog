@@ -1,8 +1,22 @@
 # 双版本上线验收清单
 
-> 状态说明：本文保留迁移前两仓库上线验收及历史证据。2026-07-15 的最终迁移基线已更新到 [`migration/baselines.md`](migration/baselines.md)；monorepo、共享内容、本地双构建和自动化门禁已经建立，但生产设置迁移、新 Pages 发布与灾备切换尚未验收，不能根据本文旧勾选项宣称新架构已经正式上线。
+> 状态说明：本文同时保留迁移前两仓库的历史验收和 2026-07-16 的 monorepo 生产验收。新 Pages、双端版本一致性、移动导航和人工恢复演练已经通过；异地 Git 镜像与旧 Pages 归档仍有独立门禁，不能据此宣称全部灾备建设完成。
 
 本文是 Goal 完成审计的权威清单。只有两套站点均满足对应条目并有当前证据时，Goal 才能标记完成。
+
+## 2026-07-16 monorepo 生产验收
+
+- [x] GitHub 仓库已原地重命名为 `https://github.com/original4422/original-blog`，仓库 ID 与历史保持不变，本地 `origin` 已更新。
+- [x] Vercel Root Directory 为 `apps/vercel`，主站 `/version.json` 指向目标提交 `ca179fdb3fea757d0c4f129fca9ff263f183b51e`。
+- [x] GitHub Pages 已在 `https://original4422.github.io/original-blog/` 启用；[Pages workflow run 29441330328](https://github.com/original4422/original-blog/actions/runs/29441330328) 的 build 与 deploy 均成功，`/version.json` 指向同一目标提交。
+- [x] [新鲜度 workflow run 29441534327](https://github.com/original4422/original-blog/actions/runs/29441534327) 在首次轮询即确认两端均为当前提交。
+- [x] Pages 首页、Blog、Tags、Projects、About、深层文章/标签/项目、Feed、Sitemap、搜索索引和版本端点均通过；未知路径返回 404，内部资源与链接适配 `/original-blog` 前缀。
+- [x] 390×844 与 320×568 下移动菜单、焦点、滚动锁定、Escape、About 路由和无横向溢出通过；1280×800 下桌面导航恢复，浏览器日志为空。
+- [x] 不制造真实故障的人工切换演练通过，详见 [`migration/recovery-drill-2026-07-16.md`](migration/recovery-drill-2026-07-16.md)。
+- [ ] 一次真实公开内容变更完成双部署并经过观察窗后，才归档旧 `original-blog-pages` 仓库。
+- [ ] 在 GitHub 故障域之外建立并验证只读 Git 镜像。
+
+以下条目与“最终证据”小节保留迁移前两仓库的历史事实，不代表当前 monorepo 的线上提交。
 
 ## 共同要求
 
@@ -17,7 +31,7 @@
 - [x] 依赖检查与生产构建通过，无未处理的关键控制台错误或资源 404。
 - [x] 以桌面和移动视口完成视觉检查，主要内容不溢出、不遮挡、无明显布局退化。
 
-## GitHub + Vercel 版本
+## 迁移前 GitHub + Vercel 版本
 
 - [x] 本地 `pnpm check` 与 `pnpm build` 通过。
 - [x] 源码推送至 `https://github.com/original4422/original-blog-vercel`。
@@ -25,7 +39,7 @@
 - [x] 生产部署成功，正式网址 HTTP 200，关键路由逐一验证。
 - [x] Vercel 后续提交能够触发自动部署。
 
-## GitHub Pages 版本
+## 迁移前 GitHub Pages 版本
 
 - [x] Next.js 静态导出成功，`out/` 包含关键页面、搜索索引、Feed、Sitemap 和 404。
 - [x] 源码推送至 `https://github.com/original4422/original-blog-pages`。
@@ -33,7 +47,7 @@
 - [x] `https://original4422.github.io/original-blog-pages/` HTTP 200，所有内部链接和静态资源适配仓库前缀。
 - [x] 后续提交能够触发 GitHub Actions 并更新 Pages。
 
-## 最终证据
+## 迁移前最终证据
 
 验收时间：`2026-07-11 14:06 CST`（Asia/Shanghai）。
 

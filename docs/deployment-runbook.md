@@ -4,13 +4,13 @@
 
 ## 当前边界
 
-| 目标 | 应用目录 | 平台 | 当前/最终公开地址 |
+| 目标 | 应用目录 | 平台 | 当前公开地址 |
 | --- | --- | --- | --- |
 | 主站 | `apps/vercel` | Vercel | `https://original-blog-vercel.vercel.app/` |
-| 温备站 | `apps/pages` | GitHub Pages | 最终为 `https://original4422.github.io/original-blog/` |
-| 迁移期间旧温备 | 独立归档仓库 | GitHub Pages | `https://original4422.github.io/original-blog-pages/` |
+| 温备站 | `apps/pages` | GitHub Pages | `https://original4422.github.io/original-blog/` |
+| 待归档的旧 Pages | 独立旧仓库 | GitHub Pages | `https://original4422.github.io/original-blog-pages/` |
 
-当前没有自定义域名。旧 Pages 在新 Pages 完成生产验收前保持在线；不要把迁移承接仓库仍名为 `original-blog-vercel` 时产生的临时项目路径当成最终温备地址。
+当前没有自定义域名。新 Pages 已于 2026-07-16 完成生产访问、内容一致性、移动导航和人工恢复演练；旧 Pages 仍保持在线，只有在一次真实公开内容变更完成双部署并经过观察窗后才归档。
 
 公开语义内容只允许在 `packages/content` 中维护。`apps/vercel` 与 `apps/pages` 可以使用不同组件、布局和平台能力，但不得分别维护文章、项目、身份或页面正文副本。
 
@@ -44,7 +44,7 @@ pnpm test:e2e
 pnpm preview:pages
 ```
 
-默认地址为 `http://127.0.0.1:4173/original-blog-pages/`。预览器直接挂载带生产 `basePath` 的 `apps/pages/out`，不重新构建无前缀变体。
+默认地址为 `http://127.0.0.1:4173/original-blog/`。预览器直接挂载带生产 `basePath` 的 `apps/pages/out`，不重新构建无前缀变体。
 
 ## GitHub Actions 质量门禁
 
@@ -54,7 +54,7 @@ pnpm preview:pages
 
 ## Vercel 主站部署
 
-Vercel 继续由现有 GitHub 集成监听 `main`。正式迁移时必须在 Vercel Project 中确认：
+Vercel 继续由现有 GitHub 集成监听 `main`。当前 Vercel Project 已确认：
 
 1. Root Directory 为 `apps/vercel`；
 2. 构建可以读取仓库根的 `pnpm-workspace.yaml`、根锁文件与 `packages/content`；
@@ -80,7 +80,7 @@ curl -fsS https://original-blog-vercel.vercel.app/version.json
 - `NEXT_PUBLIC_BASE_PATH=/<repository-name>`；
 - `SITE_URL=https://<owner>.github.io/<repository-name>`。
 
-仓库仍名为 `original-blog-vercel` 时，workflow 只执行 build 与 audit，不配置、上传或部署 Pages。仓库重命名为 `original-blog` 后，`configure-pages`、artifact upload 和 deploy job 自动激活，最终路径为 `/original-blog/`。
+仓库已重命名为 `original-blog`，`configure-pages`、artifact upload 和 deploy job 已激活，生产路径为 `/original-blog/`。workflow 中的仓库名判断用于防止历史名称下意外创建临时 Pages 地址。
 
 监控命令：
 
@@ -104,7 +104,7 @@ curl -fsS https://original4422.github.io/original-blog/version.json
 
 ## 15 分钟版本新鲜度目标
 
-`.github/workflows/verify-deploy-freshness.yml` 在仓库最终命名为 `original-blog` 后激活。它轮询主站和温备站的 `/version.json`，最多等待 900 秒：
+`.github/workflows/verify-deploy-freshness.yml` 已激活。它轮询主站和温备站的 `/version.json`，最多等待 900 秒：
 
 - 两边 `commit` 都等于触发 workflow 的 `main` SHA 时成功；
 - 超过 15 分钟仍未收敛时 workflow 失败并形成可见告警；
@@ -114,7 +114,7 @@ curl -fsS https://original4422.github.io/original-blog/version.json
 
 ## 生产访问矩阵
 
-| 能力 | Vercel | 最终 Pages | 预期 |
+| 能力 | Vercel | Pages | 预期 |
 | --- | --- | --- | --- |
 | 首页 | `/` | `/original-blog/` | 200 |
 | Blog | `/blog/` | `/original-blog/blog/` | 200 |
@@ -144,6 +144,8 @@ Pages 的 HTML、CSS、JavaScript、图片和内部链接都必须带 `/original
 
 当前没有自定义域名，因此“切换”只能通过发布和传播备用 URL 完成，不能实现透明 DNS 切换。域名方案后续单独讨论。
 
+最近一次不制造真实故障的人工切换演练记录见 [`migration/recovery-drill-2026-07-16.md`](migration/recovery-drill-2026-07-16.md)。演练只验证技术链路和通知文案准备，不把真实主站下线，也不向外部渠道发送测试通知。
+
 ## 回退边界
 
 - Vercel 迁移失败：保留并恢复到迁移前 tag `pre-monorepo-vercel-2026-07-15` 对应的已知良好 deployment；
@@ -163,4 +165,4 @@ Pages workflow run / deployment URL / version.json:
 故障或回退记录:
 ```
 
-只有 CI、两个平台部署、公开访问矩阵、版本新鲜度和浏览器复检都对应同一目标提交时，才可以宣称新架构正式上线。
+只有 CI、两个平台部署、公开访问矩阵、版本新鲜度和浏览器复检都对应同一目标提交时，才可以宣称该次双版本发布通过生产验收。异地 Git 镜像和旧 Pages 归档仍按各自门禁单独验收。

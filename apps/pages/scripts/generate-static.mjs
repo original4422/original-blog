@@ -6,10 +6,10 @@ import { getAllPosts, postBodyForSearch } from '@original/content/server';
 const root = process.cwd();
 const publicDir = path.join(root, 'public');
 const basePath = (
-  process.env.NEXT_PUBLIC_BASE_PATH ?? '/original-blog-pages'
+  process.env.NEXT_PUBLIC_BASE_PATH ?? '/original-blog'
 ).replace(/\/$/, '');
 const siteUrl = (
-  process.env.SITE_URL ?? 'https://original4422.github.io/original-blog-pages'
+  process.env.SITE_URL ?? 'https://original4422.github.io/original-blog'
 ).replace(/\/$/, '');
 
 const escapeXml = (value) =>

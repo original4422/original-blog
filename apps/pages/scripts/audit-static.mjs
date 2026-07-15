@@ -34,10 +34,10 @@ for (const file of requiredFiles) {
 
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const expectedBasePath = (
-  process.env.NEXT_PUBLIC_BASE_PATH ?? '/original-blog-pages'
+  process.env.NEXT_PUBLIC_BASE_PATH ?? '/original-blog'
 ).replace(/\/$/, '');
 const expectedSiteUrl = (
-  process.env.SITE_URL ?? 'https://original4422.github.io/original-blog-pages'
+  process.env.SITE_URL ?? 'https://original4422.github.io/original-blog'
 ).replace(/\/$/, '');
 assert(
   manifest.basePath === expectedBasePath,

@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const pagesBasePath =
-	process.env.NEXT_PUBLIC_BASE_PATH ?? '/original-blog-pages';
+	process.env.NEXT_PUBLIC_BASE_PATH ?? '/original-blog';
 const baseURL = `http://127.0.0.1:4173${pagesBasePath}/`;
 
 export default defineConfig({

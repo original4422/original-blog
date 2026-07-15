@@ -6,7 +6,7 @@ function normalizeBasePath(value: string) {
 }
 
 const basePath = normalizeBasePath(
-  process.env.NEXT_PUBLIC_BASE_PATH ?? '/original-blog-pages',
+  process.env.NEXT_PUBLIC_BASE_PATH ?? '/original-blog',
 );
 
 const nextConfig: NextConfig = {

@@ -3,6 +3,7 @@
 import { pageContent } from '@original/content';
 import { AnimatePresence, motion } from 'motion/react';
 import { useRouter } from 'next/navigation';
+import type { MouseEvent } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface SearchItem {
@@ -205,7 +206,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 								scale: 0.95,
 								transition: { duration: dur ?? 0.1 },
 							}}
-							onClick={(e) => e.stopPropagation()}
+							onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}
 						>
 							<div className='p-4 border-b border-gray-200 dark:border-gray-800 flex items-center gap-3'>
 								<svg

@@ -109,8 +109,12 @@ export default async function PostPage({
           <MDXRemote
             source={post.content}
             components={{
-              h2: (props) => <Heading level={2} {...props} />,
-              h3: (props) => <Heading level={3} {...props} />,
+              h2: (props: ComponentPropsWithoutRef<'h2'>) => (
+                <Heading level={2} {...props} />
+              ),
+              h3: (props: ComponentPropsWithoutRef<'h3'>) => (
+                <Heading level={3} {...props} />
+              ),
             }}
             options={{
               mdxOptions: {

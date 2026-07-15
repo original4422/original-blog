@@ -1,10 +1,9 @@
 import { siteContent } from '@original/content';
 
-export const BASE_PATH =
-  process.env.NEXT_PUBLIC_BASE_PATH ?? '/original-blog-pages';
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? '/original-blog';
 
 export const SITE_URL =
-  process.env.SITE_URL ?? 'https://original4422.github.io/original-blog-pages';
+  process.env.SITE_URL ?? 'https://original4422.github.io/original-blog';
 
 export const siteConfig = {
   ...siteContent,

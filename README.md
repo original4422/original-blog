@@ -1,6 +1,6 @@
 # original — Personal Digital Garden
 
-`original` 的个人数字花园：个人首页、技术博客与项目作品集。仓库正在从两套独立源码迁移为单一 pnpm monorepo，由一份权威内容同时驱动 Vercel 主站和 GitHub Pages 温备站。
+`original` 的个人数字花园：个人首页、技术博客与项目作品集。仓库已经整合为单一 pnpm monorepo，由一份权威内容同时驱动 Vercel 主站和 GitHub Pages 温备站。
 
 ## 目标架构
 
@@ -13,7 +13,7 @@ docs/             # ADR、迁移证据、验收与恢复手册
 
 两套应用保留各自的组件、样式、搜索实现、图片策略和部署生命周期；公开语义内容不得在应用目录分别维护。`main` 表达两版共同的生产意图，合并后由两个平台独立自动部署。
 
-当前迁移分支及逐步验证方式见 [monorepo 实施计划](docs/plans/2026-07-15-monorepo-migration.md)。迁移前不可变基线见 [baselines.md](docs/migration/baselines.md)。
+迁移步骤与验收方法见 [monorepo 实施计划](docs/plans/2026-07-15-monorepo-migration.md)。迁移前不可变基线见 [baselines.md](docs/migration/baselines.md)，当前部署和恢复操作见 [部署与恢复手册](docs/deployment-runbook.md)。
 
 ## 迁移后的本地命令
 
@@ -45,10 +45,10 @@ pnpm preview:pages
 ## 生产站点
 
 - Vercel 主站：<https://original-blog-vercel.vercel.app/>
-- 迁移期间旧 Pages：<https://original4422.github.io/original-blog-pages/>
-- 最终 Pages 温备站：仓库重命名为 `original-blog` 后启用 `/original-blog/` 项目站点路径
+- Pages 温备站：<https://original4422.github.io/original-blog/>
+- 待归档的旧 Pages：<https://original4422.github.io/original-blog-pages/>
 
-域名方案暂缓。旧 Pages 仓库在新 Pages 完成访问、内容一致性和恢复验收前保持在线且不归档。
+域名方案暂缓。新 Pages 已完成访问、内容一致性、移动导航和人工恢复演练；旧 Pages 仓库仍保持在线，只有在一次真实公开内容变更完成双部署并经过观察窗后才归档。
 
 ## 文档入口
 
