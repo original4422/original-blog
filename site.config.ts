@@ -21,7 +21,7 @@ export const siteConfig = {
 	locale: 'zh_CN',
 	language: 'zh-CN',
 	url: resolveSiteUrl(),
-	email: 'hello@example.com',
+	email: 'pzg24@mails.tsinghua.edu.cn',
 	github: 'https://github.com/original4422',
 	githubHandle: '@original4422',
 } as const;
