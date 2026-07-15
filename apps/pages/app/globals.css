@@ -1,0 +1,317 @@
+/* biome-ignore-all lint/complexity/noImportantStyles: reduced-motion overrides must beat component and inline animation styles */
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+:root {
+  --paper: #f7f6f2;
+  --ink: #11100f;
+  --muted: #6d6a66;
+  --line: rgba(17, 16, 15, 0.16);
+  --surface: rgba(247, 246, 242, 0.82);
+  --accent: #de1d8d;
+  --accent-dark: #a80e70;
+  --serif: "Iowan Old Style", "Baskerville", "Times New Roman", serif;
+  --sans: "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
+  color-scheme: light;
+}
+
+.dark {
+  --paper: #0b0a0b;
+  --ink: #f2f0eb;
+  --muted: #aaa6a0;
+  --line: rgba(242, 240, 235, 0.17);
+  --surface: rgba(11, 10, 11, 0.82);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+  border-color: var(--line);
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) transparent;
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  content: "";
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+}
+
+::selection {
+  color: #fff;
+  background: var(--accent);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 200;
+  top: 0.75rem;
+  left: 0.75rem;
+  transform: translateY(-160%);
+  padding: 0.55rem 0.85rem;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--accent);
+  transition: transform 180ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.display {
+  font-family: var(--serif);
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.page-shell {
+  width: min(100% - 2rem, 76rem);
+  min-height: calc(100svh - 12rem);
+  margin-inline: auto;
+  padding: 10rem 0 6rem;
+}
+
+.page-header {
+  display: grid;
+  gap: 1rem;
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.page-title {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(3.8rem, 11vw, 9.5rem);
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  line-height: 0.84;
+}
+
+.page-lede {
+  max-width: 39rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+}
+
+.accent-link {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 0.12em;
+  transition:
+    color 220ms ease,
+    background-size 220ms ease;
+}
+
+.accent-link:hover {
+  color: #fff;
+  background-size: 100% 100%;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.9rem;
+  padding: 0.28rem 0.72rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1;
+  transition:
+    border-color 180ms ease,
+    color 180ms ease,
+    background 180ms ease;
+}
+
+.tag:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+}
+
+.prose {
+  max-width: 46rem;
+  font-family: var(--serif);
+  font-size: clamp(1.07rem, 1.8vw, 1.2rem);
+  line-height: 1.85;
+}
+
+.prose > * + * {
+  margin-top: 1.5em;
+}
+
+.prose h2,
+.prose h3 {
+  scroll-margin-top: 7rem;
+  color: var(--ink);
+  font-family: var(--sans);
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+
+.prose h2 {
+  margin-top: 3.25em;
+  font-size: clamp(1.7rem, 3.5vw, 2.45rem);
+}
+
+.prose h3 {
+  margin-top: 2.4em;
+  font-size: 1.35rem;
+}
+
+.prose p,
+.prose li {
+  color: color-mix(in srgb, var(--ink) 84%, var(--paper));
+}
+
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.prose blockquote {
+  margin-inline: 0;
+  padding: 0.2rem 0 0.2rem 1.35rem;
+  border-left: 3px solid var(--accent);
+  color: var(--muted);
+  font-size: 1.25em;
+  font-style: italic;
+}
+
+.prose pre {
+  overflow-x: auto;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: #151316;
+  color: #f6f2f4;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+.prose table {
+  display: block;
+  overflow-x: auto;
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.prose th,
+.prose td {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--line);
+  text-align: left;
+}
+
+.prose th {
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+}
+
+.prose .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.5rem;
+}
+
+.prose :not(pre) > code {
+  padding: 0.15em 0.35em;
+  border-radius: 0.25rem;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  font-size: 0.86em;
+}
+
+.prose hr {
+  margin-block: 3rem;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.sr-only {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (min-width: 768px) {
+  .page-shell {
+    width: min(100% - 6rem, 76rem);
+    padding-top: 12rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,59 @@
+# Pages 导入文件 SHA-256
+
+# Source repository: https://github.com/original4422/original-blog-pages.git
+# Source commit: e76451c109b6da802b4d765ad518fc347bb6da0c
+# Source tag: pre-monorepo-pages-2026-07-15
+# Algorithm: SHA-256
+# Paths are relative to apps/pages after import.
+# Excluded repository-level files: .github/**, README.md, LICENSE, DECISIONS.md, pnpm-lock.yaml
+# This manifest describes the pre-adaptation import; workspace changes are visible in the Git commit.
+
+81e94b638a07da08307a0624e6e159cab3d816986fda0e5f8f7175b835763810  ./.gitignore
+239301e8b6ba3b0bb0b6818cd3e043a0a19c0fee90f8052addaadd0354b68f34  ./app/about/page.tsx
+604363f3a83368da46c03f5836a149a63b9538944b4b72dc5a6033316718f307  ./app/blog/[slug]/page.tsx
+21953158c5ebffb71fb678631c8894fbcf66576ecdb28b2692de084dd68d6088  ./app/blog/page.tsx
+0a6ae54be2123cddb0630e6e58c2b251e45a3fe10aec538008d9ab64a903428e  ./app/globals.css
+c90053818a46ae809fe837cf443522b3e64a20e36eb94a3ab1c3583d29c89a98  ./app/layout.tsx
+d9316d7dce8a9f5187bf860b3b799073b940536a424e40c506f45b3d8851f02d  ./app/not-found.tsx
+e9066336a6b4de0bc7daae45e63c389055fec0b4611de0b5c61a3a9e379f28eb  ./app/page.tsx
+0429e5d83f3d6e50d5ebc6d8a7ef4501a7078a4847f0c39760f0e7771046b8da  ./app/projects/[slug]/page.tsx
+a2fbe03fd1d2b31387776d7eb1d88b85b1986b45cbb78d5539982748370ac6fe  ./app/projects/page.tsx
+33d8ec9fd8a1396a4d7c0517123ce185251962b63d0f81ef178c569a1ec59a0a  ./app/providers.tsx
+961d314e540dbb5da9d939a7f422e6c9ade6be7f64bdc0bb0d4da3b46ee4a96d  ./app/tags/[tag]/page.tsx
+e84d50cca842b84e4147195af7f855b2f92e48cbb4e5444bc9155c8eb4116ad2  ./app/tags/page.tsx
+b0b349fcae11c241a02ebfbef801192053b939ad29e50a75ac16c59a21a60652  ./biome.json
+aaf1f6ac0fcd718a899174dd62b0aea65b02a6ba38d022352124dad029850714  ./components/chrome.css
+dd5714be7f813e137a6366b3831f77a2a6d96f77681b04e4035aefafbf352528  ./components/contact.tsx
+78eef306b6bc02d099497426d64c660dcd703c1563ab730fedf740e9386a3b36  ./components/fluid-backdrop.tsx
+9b36798a450c242fe3dfeead87729ec0b46b637f03c6c6751ff40350e0d7eb72  ./components/footer.tsx
+2894e130c45572bca1385bf0c23e07b91ed22e1b6a9eb1e577f18cd8be0b88a3  ./components/hero.tsx
+4b02c9ee5a7754b021cd8337212947041dcf63bdc950feb4afcb1497d876ed74  ./components/home.css
+9d078d1dbb376dea0ea157d69a6e587e47197c96872d15916e3f361c42ab0adb  ./components/intro.tsx
+80e83976b1061b81520161b8e9059f6d25d3c7e8e36fb99683c9aef7b84e0046  ./components/listing.css
+bc23ed8b05ff2da6badb1ddd892408d1f9a2bc7e602ef5984fbbd28b276da393  ./components/page-header.tsx
+59264c4894b6f57786ad2dead3a75b66375cf9d21fdaedc3a52656d8ecddb7d4  ./components/post-list.tsx
+de708e9e75032c0220f7cfb1bce9535561e6807fc06f912fa5c31b1323a4fa6e  ./components/scroll-progress.tsx
+3a097c8711b4bd3b7640916989779efafd63ca1bd6d5e00044414fd5383c419c  ./components/search-modal.tsx
+786d8e2e116684ee696764bbb179e0b1e77692565296a8047cc67b371eac1927  ./components/theme-toggle.tsx
+5532e4070eb953f2806fa45a5320a420319c4e47aac5c96a22cddae168f2b664  ./components/top-nav.tsx
+e699fe6aa1c32b392fc30a3a8f9bcb0d433f671503713c77cbce5695968d5f4e  ./components/works-showcase.tsx
+1a4fdffe2b701731c668d19dbd04ccff8dc34ab47dac242e01a7bbc7844c85a2  ./content/posts/building-a-digital-garden.mdx
+5cf8cc3495d8259c5c07000b837d82f4d85b318d084f647195be82a20bf7a764  ./content/posts/designing-for-calm.mdx
+1ebb3310c283df9e2b2952a071b925e9cdba6f0261935f3ee636bd466235fbce  ./content/posts/notes-on-tools.mdx
+01c727bde49ef3a32b6ace3910742f4e21e28fa174716721c6ec472fa0a1d092  ./content/posts/static-by-default.mdx
+0c1c71f1c173bf19c31430f10cf1d610993e4af446694198890e76eaad253c5b  ./data/projects.ts
+dca113aa33b86c237548b64e202bfff6a6317ddc53a6995e4f29951358f18420  ./data/site.ts
+b09b1ebb69e884a65063d9612a1e818fc086d5f332f3f3d31f5345cbfc1c7ccd  ./lib/posts.ts
+7b550dda9686c16f36a17bf9051d5dbf31e98555b30d114ac49fc49a1e712651  ./next-env.d.ts
+04092952793448b49f0be18f01464ac8c6dfa506f84d7c757d4f55c9637d27fe  ./next.config.ts
+d441509760ada5fcfbaf7e210b78793869ac5d7090245a4fb0a7a84633e2ba51  ./package.json
+4cae941be9bc3bee9a6905e47ea7a51aee216d587d34a8cc4ae48f78fd6d8159  ./postcss.config.mjs
+6005beb7fdd6b10d777846a600ac6f0fa5edd2b9c26107ab076caca12ac5e26c  ./public/favicon.svg
+11226427137c92a4c7fe8069db5402c6d5159b8865e4e908098b56e500d98619  ./public/images/project-blog.svg
+4d3a17469e93c5d8f57449af76967ad97979f98b1514da9733b80900427d4a68  ./public/images/project-compute.svg
+46aaa1e7cc2749c14ea7d0f8e132837a33d005876d7a5638a6b9ded76ddc6f34  ./public/images/project-notes.svg
+02490ce306e272e67ee9f0bfc2eccab2a7a04a451305901a0b179421f9adb31c  ./public/images/project-signal.svg
+e6385d048b325cd1c62b56c1bb25781501afca7e35abd97e7cbb271192973953  ./public/social-card.svg
+b50a8abaa592cce6107a39bc0cacd649677a64599e628aac5363113744ca521a  ./scripts/audit-static.mjs
+04ecf7dcaf88c5d884798fb41fba1fd69d2305b432111dfeb90389d4d6cb07c5  ./scripts/generate-static.mjs
+8850c90a636a94d33ace830703b9476ed4feb85a521a260ebc22347c2203c895  ./tsconfig.json

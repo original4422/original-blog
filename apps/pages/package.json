@@ -1,0 +1,45 @@
+{
+  "name": "@original/blog-pages",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "generate": "node scripts/generate-static.mjs",
+    "build": "pnpm generate && next build",
+    "preview": "serve out -l 4173",
+    "check": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "format": "biome check --write .",
+    "audit:static": "node scripts/audit-static.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "classnames": "^2.5.1",
+    "fuse.js": "^7.1.0",
+    "gray-matter": "^4.0.3",
+    "gsap": "^3.13.0",
+    "katex": "^0.16.28",
+    "lenis": "^1.3.15",
+    "lucide-react": "^0.525.0",
+    "motion": "^12.23.24",
+    "next": "16.2.10",
+    "next-mdx-remote": "^6.0.0",
+    "next-themes": "^0.4.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "rehype-katex": "^7.0.1",
+    "rehype-pretty-code": "^0.14.1",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0",
+    "shiki": "^3.15.0",
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.6",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.6",
+    "@types/react-dom": "^19.2.3",
+    "serve": "^14.2.4",
+    "typescript": "^5.9.3"
+  }
+}

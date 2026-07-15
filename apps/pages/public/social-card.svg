@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="g" cx="75%" cy="20%" r="80%">
+      <stop offset="0" stop-color="#de1d8d" stop-opacity=".58"/>
+      <stop offset=".52" stop-color="#391126" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#0b0a0b" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="72" height="72" patternUnits="userSpaceOnUse">
+      <path d="M72 0H0V72" fill="none" stroke="#fff" stroke-opacity=".08"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="#0b0a0b"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <circle cx="93" cy="86" r="28" fill="#f2f0eb"/>
+  <text x="84" y="98" fill="#0b0a0b" font-family="Georgia,serif" font-size="38" font-style="italic">o</text>
+  <text x="80" y="350" fill="#f2f0eb" font-family="Georgia,serif" font-size="128">original</text>
+  <circle cx="622" cy="327" r="13" fill="#de1d8d"/>
+  <text x="85" y="430" fill="#aaa6a0" font-family="Arial,sans-serif" font-size="28" letter-spacing="3">CODE · SYSTEMS · IDEAS</text>
+  <text x="85" y="553" fill="#aaa6a0" font-family="Arial,sans-serif" font-size="20">A personal digital garden — example content</text>
+</svg>
