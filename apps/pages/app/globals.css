@@ -230,6 +230,15 @@ a {
   font-style: italic;
 }
 
+.prose img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--accent) 5%, var(--paper));
+}
+
 .prose pre {
   overflow-x: auto;
   padding: 1.25rem;

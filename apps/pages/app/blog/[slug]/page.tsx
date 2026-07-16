@@ -66,6 +66,20 @@ function Heading({
   );
 }
 
+function ArticleImage({
+  src,
+  alt = '',
+  ...props
+}: ComponentPropsWithoutRef<'img'>) {
+  const resolvedSrc =
+    typeof src === 'string' && src.startsWith('/') ? withBasePath(src) : src;
+
+  return (
+    // biome-ignore lint/performance/noImgElement: MDX images do not provide the dimensions required by next/image.
+    <img {...props} src={resolvedSrc} alt={alt} />
+  );
+}
+
 export default async function PostPage({
   params,
 }: {
@@ -115,6 +129,7 @@ export default async function PostPage({
               h3: (props: ComponentPropsWithoutRef<'h3'>) => (
                 <Heading level={3} {...props} />
               ),
+              img: ArticleImage,
             }}
             options={{
               mdxOptions: {

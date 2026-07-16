@@ -1,0 +1,206 @@
+---
+title: '用一个 Monorepo 同时发布 Vercel 与 GitHub Pages'
+publishedAt: '2026-07-16'
+summary: '一套面向个人博客的双平台实践：共享内容、分离实现、独立部署，并用版本端点与自动化证明温备站真的可用。'
+draft: false
+image: '/content/blog/independent-release-flow.svg'
+tags: [Next.js, Vercel, GitHub Pages, 教程]
+---
+
+用一个仓库同时部署 Vercel 和 GitHub Pages，难点不在把 `next build` 跑两次，而在决定：**什么必须共享，什么必须保持独立。**
+
+如果所有代码都强行复用，Pages 的静态限制会侵入主站；如果两个应用什么都不共享，文章和项目迟早漂移。下面这套结构来自一个真实个人博客，目标不是做最复杂的发布系统，而是用尽量少的机制获得可维护、可观察、可以人工恢复的双平台发布。
+
+## 先定义成功，而不是先选工具
+
+开始之前，先写下四个验收条件：
+
+1. 文章、项目和作者信息只能编辑一次。
+2. Vercel 与 Pages 任一失败时，另一边不被阻塞。
+3. 两个线上站点都能说明自己来自哪个 Git 提交。
+4. Pages 在主站故障时已经是可访问的成品，不需要临时改代码重建。
+
+这四条决定了后面的目录、工作流和验证方式。
+
+![单一内容源与两套独立应用](/content/blog/blog-system-architecture.svg)
+
+*图 1：内容统一，平台实现分离。*
+
+## 目录：仓库根只做编排
+
+一个足够小的 pnpm workspace 可以这样组织：
+
+```text
+original-blog/
+├── apps/
+│   ├── vercel/          # 运行时能力、主站视觉与 Vercel 配置
+│   └── pages/           # 静态导出、basePath 与 Pages 视觉
+├── packages/
+│   └── content/
+│       ├── posts/       # 唯一 MDX 文章目录
+│       ├── media/       # 两版共同使用的图片
+│       └── src/         # schema、站点、页面与项目数据
+├── scripts/             # 内容、版本与预览审计
+├── tests/e2e/           # Pages 生产路径与移动导航测试
+└── .github/workflows/   # CI、Pages 部署、新鲜度检查
+```
+
+根目录只维护一份 lockfile 和一组跨应用命令。两个应用的包名必须唯一，并显式依赖共享包：
+
+```json
+{
+  "dependencies": {
+    "@original/content": "workspace:*"
+  }
+}
+```
+
+不要在 `apps/pages/data` 再复制一份文章标题，也不要让 Vercel 版单独维护项目描述。应用目录可以保存配色、动画、布局和平台 URL；可被读者理解为“内容”的信息应回到共享包。
+
+## 内容包需要契约，不只是一个文件夹
+
+MDX frontmatter 是内容与两套渲染器之间的接口。最小文章元数据可以包含：
+
+```yaml
+title: '文章标题'
+publishedAt: '2026-07-16'
+summary: '一句能够独立理解的摘要'
+draft: false
+image: '/content/blog/cover.svg'
+tags: [Next.js, System Design]
+```
+
+然后用内容审计检查必填字段、唯一 slug、有效日期、非空标签、内部媒体存在和联系方式一致。这样一篇错误文章会在 PR 阶段失败，而不是在某个平台上线后才暴露。
+
+内容审计还应确认两套应用都声明依赖 `@original/content`。它不能从数学上证明开发者永远不会复制文案，但能把架构约束变成日常可见的门禁。
+
+## 两套应用应该保留哪些差异
+
+Vercel 与 Pages 的能力并不对称，不要假装它们是同一种运行环境。
+
+| 能力 | Vercel 应用 | Pages 应用 |
+| --- | --- | --- |
+| 输出 | Next.js 运行时与静态页面 | `output: 'export'` |
+| 搜索索引 | Route Handler | 构建期生成 JSON |
+| Feed/Sitemap | Metadata Route 或 Route Handler | 构建期生成文件 |
+| 图片 | 可使用平台优化 | `images.unoptimized: true` |
+| URL | 站点根路径 | 仓库项目路径 `/original-blog` |
+
+共享的是语义结果：同样的文章、标签、项目和公开路径。实现可以不同，只要质量门禁同时覆盖两边。
+
+## Pages 最容易错在 basePath
+
+GitHub Pages 项目站点位于 `/<repository-name>/`。Next.js 配置需要同时处理 `basePath`、静态资源和尾斜杠：
+
+```ts
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '/original-blog';
+
+const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  basePath,
+  assetPrefix: basePath,
+  images: { unoptimized: true },
+};
+```
+
+应用内链接可以统一经过 `withBasePath()`。更隐蔽的是 MDX 图片：正文写的是规范路径 `/content/blog/example.svg`，Vercel 可以直接访问，但 Pages 必须在渲染边界增加 `/original-blog`。不要把 Pages 路径写进文章，否则同一内容又会带上平台条件。
+
+同理，Feed、Sitemap、robots、搜索索引和本地预览都要使用生产 basePath。只在浏览器首页看一眼，无法发现深层路由和资源请求的问题。
+
+## 用 version.json 观察发布结果
+
+两个平台由同一提交触发，不代表它们会同时完成。给两套构建都生成一个简单端点：
+
+```json
+{
+  "commit": "abc1234...",
+  "builtAt": "2026-07-16T03:00:00.000Z",
+  "app": "pages"
+}
+```
+
+Vercel 构建读取 `VERCEL_GIT_COMMIT_SHA`，Pages 读取 `GITHUB_SHA`。发布后的检查不再猜测“页面是不是新的”，而是比较两个端点与目标 `main` 提交。
+
+![同一提交的独立发布与版本收敛](/content/blog/independent-release-flow.svg)
+
+*图 2：两条发布链互不阻塞，十五分钟目标负责发现长期偏差。*
+
+这里的“同时发布”是同一事件触发，不是跨平台事务。Vercel 可能先完成，Pages 也可能先完成。短暂版本差异是部署状态；正常情况下十五分钟内仍未收敛，才让新鲜度 workflow 失败并留下告警。
+
+## 三条 GitHub Actions 各自只做一件事
+
+一套清楚的自动化可以分成三条：
+
+### CI
+
+在 Pull Request 和 `main` 上执行内容审计、格式检查、类型检查、两版生产构建、Pages 静态审计和 Playwright。任一应用失败，变更都不应合并。
+
+### Build and deploy Pages
+
+只负责构建 `apps/pages`、上传 `out/` artifact 并调用 Pages deploy。它与 Vercel Git 集成独立，Pages 失败不会取消已经健康的主站发布。
+
+### Verify deployment freshness
+
+在 `main` 更新后轮询两个 `/version.json`，最多等待十五分钟。失败时直接追踪最新提交，不要求补发每一个已经被后续更新取代的中间版本。
+
+## 本地验证必须使用生产运行时
+
+如果仓库和平台约定 Node 24，本地验收也应显式切换到 Node 24：
+
+```bash
+source ~/.nvm/nvm.sh
+nvm use 24
+
+pnpm audit:content
+pnpm check
+pnpm typecheck
+pnpm build
+pnpm --filter @original/blog-pages audit:static
+pnpm audit:versions
+pnpm test:e2e
+```
+
+不要把 pnpm 的 `Unsupported engine` 当作无关警告。Node 26 也许能运行命令，但它不是这条生产链已经验证的基线。
+
+如果 monorepo 搬迁后类型错误忽隐忽现，先检查 `apps/*/tsconfig.tsbuildinfo`。增量缓存可能引用旧路径，既可能制造假错误，也可能让旧工作树跳过真正需要检查的文件。删除缓存后做一次全量类型检查，结果才可信。
+
+## 端到端测试要访问真实生产路径
+
+Pages 的本地预览不能简单地在 `/` 提供 `out/`，否则测试的是一个生产中不存在的无前缀变体。预览服务器应把导出物挂载到 `/original-blog/`，Playwright 也从这个 base URL 开始。
+
+移动导航至少覆盖 320×568 和 390×844：四个入口可见、无横向溢出、打开后锁定滚动、焦点进入菜单、Escape 恢复焦点、导航后关闭菜单，并在 1280×800 恢复桌面导航。
+
+这类测试看似与灾备无关，实际上非常关键。备用站返回 200，却无法在手机上导航，不能算可接管的温备。
+
+## 发布后如何做人工恢复验证
+
+合并 `main` 后，先确认三条自动化成功，再验证两个版本端点和公开路由。至少检查首页、深层文章、标签、项目、Feed、Sitemap、搜索索引、媒体和未知路径 404。
+
+主站故障时，如果还没有自定义域名，实际动作不是 DNS 切换，而是：
+
+1. 记录故障开始时间，确认不是短暂抖动；
+2. 打开 Pages 温备站，核对健康状态和 `/version.json`；
+3. 确认它没有丢失已经发布的版本；
+4. 发布备用 URL；
+5. 主站恢复后再次核对，再撤销临时通知。
+
+对个人博客，RPO 设为 0 个已发布版本、RTO 不超过一小时已经足够清楚。自动 DNS 故障切换会增加误判和长期运维成本，可以等真实需求出现后再做。
+
+## 最后检查这些常见失败模式
+
+- 仓库改名后，Git URL 可能重定向，但项目型 Pages URL 不会替你迁移；
+- 根路径图片在 Pages 正文中可能绕过 `basePath`；
+- 两个仓库都能部署，不代表它们拥有同一内容；
+- 两个平台由一次 push 触发，不代表它们原子完成；
+- 构建成功不代表深层路由、移动导航和静态资源可用；
+- 平台分配的 hostname 不是自有域名，也不能提供透明品牌切换；
+- GitHub 中的单一 monorepo 仍然是一个源码平台故障域，需要后续异地镜像。
+
+## 一套够用的个人博客发布系统
+
+这套方案没有引入 Turborepo、CMS、数据库或自动故障切换。两个应用时，pnpm workspace、明确的脚本和可观察的版本端点已经足够。
+
+衡量它是否成功的方法也很朴素：以后发布一篇文章，只修改 `packages/content`；两套应用都在合并前证明自己能构建；上线后两个站点能说明自己来自同一个提交；主站故障时，备用入口已经在那里。
+
+可靠性不是多复制一份代码，而是减少模糊状态。对个人网站，这往往比堆更多平台更有用。
